@@ -1,0 +1,112 @@
+// =====================================================
+// JAVASCRIPT EXECUTION CONTEXT
+// =====================================================
+// JavaScript code kaise run hota hai — ye samajhna
+// debugging aur advanced concepts ke liye zaroori hai
+//
+// ─────────────────────────────────────────────────
+// TYPES OF EXECUTION CONTEXT
+// ─────────────────────────────────────────────────
+//
+// 1. GLOBAL EXECUTION CONTEXT (GEC)
+//    - JS file run hone par pehle ye banta hai
+//    - 'this' = global object (browser me: window, Node.js me: global)
+//    - Sirf ek GEC hota hai ek time par
+//
+// 2. FUNCTION EXECUTION CONTEXT (FEC)
+//    - Har baar function call hone par naya context banta hai
+//    - Apna khud ka 'this', arguments, local variables hote hain
+//    - Function complete hone par delete ho jata hai
+//
+// 3. EVAL EXECUTION CONTEXT
+//    - eval() function call hone par banta hai
+//    - Avoid karo eval() use karna (security risk!)
+
+// ─────────────────────────────────────────────────
+// EXECUTION CONTEXT KE 2 PHASES
+// ─────────────────────────────────────────────────
+//
+// PHASE 1: MEMORY CREATION PHASE (a.k.a. Hoisting)
+// ════════════════════════════════════════════════
+// JavaScript pehle poora code scan karta hai
+// - Saare variables → undefined se initialize karta hai
+// - Saare function declarations → full definition store karta hai
+// - ye sab Call Stack pe PUSH hone se pehle hota hai
+//
+// PHASE 2: EXECUTION PHASE
+// ════════════════════════
+// Code line by line execute hota hai
+// - Variables apni actual values paate hain
+// - Function calls → new Execution Context push hota hai Call Stack me
+// - Return statement → Execution Context pop ho jata hai
+
+// ─────────────────────────────────────────────────
+// PRACTICAL EXAMPLE — Step by Step
+// ─────────────────────────────────────────────────
+let val1 = 10   // Step 1: Memory: undefined → Execution: 10
+let val2 = 5    // Step 1: Memory: undefined → Execution: 5
+
+function addNum(num1, num2) {  // Step 1: Memory: function stored
+    let total = num1 + num2    // Inside FEC: Memory: undefined → Execution: 15
+    return total               // total return hogi, FEC delete hoga
+}
+
+let result1 = addNum(val1, val2)  // New FEC created for addNum(10, 5)
+// FEC Memory Phase: num1=undefined, num2=undefined, total=undefined
+// FEC Execution Phase: num1=10, num2=5, total=15
+// return 15 → result1=15 → FEC deleted
+
+let result2 = addNum(19, 4)   // Another NEW FEC created!
+// FEC Memory Phase: num1=undefined, num2=undefined, total=undefined
+// FEC Execution Phase: num1=19, num2=4, total=23
+// return 23 → result2=23 → FEC deleted
+
+console.log(result1)  // 15
+console.log(result2)  // 23
+
+// ─────────────────────────────────────────────────
+// CALL STACK — How JavaScript Manages Execution
+// ─────────────────────────────────────────────────
+// Call Stack ek "stack" data structure hai (LIFO — Last In First Out)
+// jisme Execution Contexts track hote hain
+//
+// When code starts:   [GEC]
+// When addNum called: [GEC, addNum FEC]
+// When addNum returns:[GEC]  ← FEC removed
+// When program ends:  []     ← GEC removed
+//
+// "Stack Overflow" = Stack full ho jata hai (infinite recursion)
+//
+// Example of stack overflow:
+// function endless() { endless() }  // Calls itself forever!
+// endless()  // Maximum call stack size exceeded!
+
+// ─────────────────────────────────────────────────
+// HOISTING DEMONSTRATION
+// ─────────────────────────────────────────────────
+
+// Function declarations ARE hoisted (can call before declaration)
+sayHello()  // Works! Output: "Hello!"
+function sayHello() {
+    console.log("Hello!")
+}
+
+// var IS hoisted (but value is undefined during hoisting)
+console.log(myVar)  // undefined (not error!) — hoisted as undefined
+var myVar = "I'm a var"
+console.log(myVar)  // "I'm a var"
+
+// let/const are in TEMPORAL DEAD ZONE (TDZ)
+// They're hoisted but NOT initialized — accessing them throws error
+// console.log(myLet)  // ReferenceError: Cannot access before initialization
+let myLet = "I'm a let"
+
+// ─────────────────────────────────────────────────
+// KEY CONCEPTS SUMMARY
+// ─────────────────────────────────────────────────
+// 1. JavaScript is single-threaded — one thing at a time
+// 2. Execution Context has two phases: Memory + Execution
+// 3. Call Stack tracks which function is running
+// 4. Function calls create new Execution Contexts
+// 5. Hoisting lifts declarations to top of their scope
+// 6. let/const are in TDZ before their declaration line
