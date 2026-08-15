@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email & Password Validator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Registration Form</h1>
+ 
+        <form  autocomplete="off" id="registrationForm">
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    placeholder="Enter your email"
+                >
+                <p id="emailError" class="error"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    placeholder="Enter your password"
+                >
+                <p id="passwordError" class="error"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input 
+                    type="password" 
+                    id="confirmPassword" 
+                    placeholder="Re-enter your password"
+                >
+                <p id="confirmPasswordError" class="error"></p>
+            </div>
+
+            <button type="submit">Register</button>
+
+            <p id="successMessage" class="success"> Sucessfulluyy</p>
+
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
