@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f0f0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        h1.page-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 36px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ---- FORM ---- */
+        .form-card {
+            background: #1c1c1e;
+            border: 1px solid #2e2e2e;
+            border-radius: 16px;
+            padding: 36px 32px;
+            max-width: 560px;
+            margin: 0 auto 48px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+
+        .form-card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            background: #2a2a2c;
+            border: 1px solid #3a3a3c;
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #6c63ff;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .form-group select option {
+            background: #2a2a2c;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6c63ff, #48cfad);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .submit-btn:active { transform: translateY(0); }
+
+        /* ---- PRODUCT GRID ---- */
+        .section-title {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #aaa;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        #product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: #1c1c1e;
+            border: 1px solid #2e2e2e;
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: fadeIn 0.3s ease;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(108, 99, 255, 0.2);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-emoji {
+            width: 100%;
+            height: 160px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2a2a2c, #3a3a3c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+        }
+
+        .product-name  { font-size: 1.05rem; font-weight: 700; color: #fff; }
+        .product-category { font-size: 0.78rem; color: #6c63ff; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .product-price { font-size: 1.1rem; font-weight: 700; color: #48cfad; }
+        .product-desc  { font-size: 0.85rem; color: #888; line-height: 1.5; }
+
+        .remove-btn {
+            margin-top: auto;
+            padding: 8px;
+            background: transparent;
+            border: 1px solid #3a3a3c;
+            border-radius: 6px;
+            color: #ff5f5f;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .remove-btn:hover { background: rgba(255,95,95,0.1); }
+
+        .empty-msg {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #555;
+            font-size: 0.95rem;
+            padding: 40px 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="page-title">🛒 Store Manager</h1>
+
+    <!-- Add Product Form -->
+    <div class="form-card">
+        <h2>Add Product</h2>
+
+        <div class="form-group">
+            <label for="prod-name">Product Name</label>
+            <input type="text" id="prod-name" placeholder="e.g. Wireless Headphones" required>
+        </div>
+
+        <div class="form-group">
+            <label for="prod-category">Category</label>
+            <select id="prod-category">
+                <option value="Electronics">Electronics</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Books">Books</option>
+                <option value="Food">Food</option>
+                <option value="Sports">Sports</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="prod-price">Price (&#8377;)</label>
+            <input type="number" id="prod-price" placeholder="e.g. 1299" min="0">
+        </div>
+
+        <div class="form-group">
+            <label for="prod-desc">Description</label>
+            <textarea id="prod-desc" placeholder="Short product description..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="prod-img">Image URL (optional)</label>
+            <input type="url" id="prod-img" placeholder="https://...">
+        </div>
+
+        <button class="submit-btn" id="add-btn" onclick="storeManager.addProduct()">Add to Store</button>
+    </div>
+
+    <!-- Product Listing -->
+    <p class="section-title">Products</p>
+    <div id="product-grid">
+        <p class="empty-msg">No products yet. Add one above!</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
