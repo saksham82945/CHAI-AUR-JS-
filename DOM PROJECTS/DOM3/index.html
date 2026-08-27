@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM3 — Styles, Attributes & Events</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #f97316;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .section {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            color: #f97316;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .section .desc {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        /* Demo Box */
+        #demoBox {
+            width: 180px;
+            height: 80px;
+            background: #f97316;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-bottom: 14px;
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        button {
+            background: #f97316;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            transition: background 0.2s;
+        }
+
+        button:hover { background: #ea6a05; }
+        button.secondary {
+            background: #2a2a2a;
+            border: 1px solid #f97316;
+            color: #f97316;
+        }
+        button.secondary:hover { background: #1f1f1f; }
+
+        /* Attribute demo */
+        #attrImg {
+            width: 120px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 12px;
+            border: 2px solid #f97316;
+        }
+
+        /* classList demo */
+        #classBox {
+            padding: 16px 24px;
+            border-radius: 10px;
+            background: #222;
+            display: inline-block;
+            margin-bottom: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .highlight-class { background: #f97316 !important; color: #fff; }
+        .border-class { border: 2px solid #f97316 !important; }
+        .large-text { font-size: 1.4rem !important; }
+
+        /* Event demo */
+        #eventBox {
+            background: #1f1f1f;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 16px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 14px;
+            transition: all 0.2s;
+        }
+
+        #eventLog {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            max-height: 120px;
+            overflow-y: auto;
+            color: #4ade80;
+        }
+
+        .log-entry { margin-bottom: 4px; }
+        .log-entry span { color: #888; }
+
+        /* Input style */
+        input[type="text"] {
+            background: #222;
+            border: 1px solid #333;
+            color: #e0e0e0;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            outline: none;
+            margin-right: 8px;
+            width: 200px;
+        }
+        input[type="text"]:focus { border-color: #f97316; }
+
+        .tag {
+            display: inline-block;
+            background: #222;
+            color: #f97316;
+            border: 1px solid #f97316;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.78rem;
+            font-family: monospace;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎯 DOM3 — Styles, Attributes & Events</h1>
+    <p class="subtitle">Hitesh Sir ke saath — JavaScript DOM ka teesra chapter</p>
+
+    <!-- ===== SECTION 1: STYLES ===== -->
+    <div class="section">
+        <h2>1️⃣ Element Styles — <span class="tag">style.property</span></h2>
+        <p class="desc">JS se kisi bhi element ki CSS properties directly change kar sakte ho</p>
+
+        <div id="demoBox">Demo Box</div>
+
+        <button onclick="changeColor()">🎨 Color Change</button>
+        <button onclick="changeSize()">📐 Size Change</button>
+        <button onclick="roundCorners()">⭕ Border Radius</button>
+        <button class="secondary" onclick="resetBox()">🔄 Reset</button>
+    </div>
+
+    <!-- ===== SECTION 2: ATTRIBUTES ===== -->
+    <div class="section">
+        <h2>2️⃣ Attributes — <span class="tag">getAttribute</span> <span class="tag">setAttribute</span> <span class="tag">removeAttribute</span></h2>
+        <p class="desc">HTML attributes ko JS se read/write/delete karna</p>
+
+        <img id="attrImg"
+             src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?w=200&q=80"
+             alt="Nature photo"
+             data-category="landscape" />
+
+        <div style="margin-bottom:12px;">
+            <button onclick="readAttr()">📖 Read Attributes</button>
+            <button onclick="changeAttr()">✏️ Change src</button>
+            <button onclick="addDataAttr()">➕ Add data-attr</button>
+            <button onclick="removeAttr()">🗑️ Remove alt</button>
+        </div>
+
+        <div id="attrOutput" style="font-family:monospace;font-size:0.82rem;color:#4ade80;"></div>
+    </div>
+
+    <!-- ===== SECTION 3: CLASSLIST ===== -->
+    <div class="section">
+        <h2>3️⃣ classList — <span class="tag">add</span> <span class="tag">remove</span> <span class="tag">toggle</span> <span class="tag">contains</span></h2>
+        <p class="desc">CSS classes ko dynamically manage karna classList se</p>
+
+        <div id="classBox">classList Demo Box</div>
+
+        <div style="margin-top:12px;">
+            <button onclick="addClass()">➕ Add .highlight</button>
+            <button onclick="removeClass()">➖ Remove .highlight</button>
+            <button onclick="toggleBorder()">🔀 Toggle .border</button>
+            <button onclick="toggleLarge()">🔤 Toggle Large Text</button>
+            <button onclick="checkClass()">🔍 Has .highlight?</button>
+        </div>
+        <div id="classOutput" style="font-family:monospace;font-size:0.82rem;color:#4ade80;margin-top:10px;"></div>
+    </div>
+
+    <!-- ===== SECTION 4: EVENTS ===== -->
+    <div class="section">
+        <h2>4️⃣ Events — <span class="tag">addEventListener</span></h2>
+        <p class="desc">User actions ko "sun" ke respond karna — yahi DOM ka soul hai!</p>
+
+        <div id="eventBox">👆 Kuch bhi karo yahan...</div>
+
+        <div style="margin-bottom:12px;">
+            <input type="text" id="eventInput" placeholder="Type karo yahan..." />
+            <button onclick="clearLog()">🧹 Clear Log</button>
+        </div>
+
+        <div id="eventLog">
+            <div class="log-entry">🟢 Event log ready...</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

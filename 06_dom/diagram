@@ -1,0 +1,16 @@
+
+        window 
+          !
+          Document 
+            !
+              Html 
+             /             \
+           head               Body 
+      /       \                 \ 
+    title      meta               Div ----> Attribute 
+  /             \                  /           \
+  text node     Attribute         Attribute<--h1      p
+                                              \ 
+                                              text node \
+                                    
+                                    

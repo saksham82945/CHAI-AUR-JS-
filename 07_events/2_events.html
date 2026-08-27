@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1> Chai and code with saksham </h1>
+
+    <button id="stop"> Stop </button>
+</body>
+
+<script>
+    // a method but they an api 
+    setTimeout(function(){
+        console.log("Hitesh");
+    },2000)
+    // it works after that you set that time 
+    const ChangeText =function(){
+    document.querySelector('h1').
+    innerHTML = "best saksham life"
+    }
+      // isme 2 sec ke bad  changeText se change ho jayega data 
+    const changeMe =   setTimeout(ChangeText,2000)
+
+document.querySelector('#stop').
+addEventListener('click',function(){
+    clearTimeout(changeMe)
+    console.log("STOPPED")
+})
+
+
+</script>
+</html>
